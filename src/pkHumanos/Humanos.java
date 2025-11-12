@@ -6,37 +6,58 @@ public abstract class Humanos {
     private Integer edad;
     private Boolean estaVivo;
 
-    public String comida(String comida){
-        return "";
+    public Humanos() {
     }
 
+    public Humanos(String nombre, String apellido, Integer edad, Boolean estaVivo) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.estaVivo = estaVivo;
+    }
 
-
-
-
+    public String comer(String comida){
+        return getNombre()+" a comido "+ comida;
+    }
     public String getNombre() {
         return nombre;
     }
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            this.nombre = nombre;
+        } else {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
     }
     public String getApellido() {
         return apellido;
     }
     public void setApellido(String apellido) {
-        this.apellido = apellido;
+        if (apellido != null && !apellido.trim().isEmpty()) {
+            this.apellido = apellido;
+        } else {
+            throw new IllegalArgumentException("El apellido no puede estar vacío");
+        }
     }
     public Integer getEdad() {
         return edad;
     }
     public void setEdad(Integer edad) {
-        this.edad = edad;
+        if (edad != null && edad >= 0 && edad <= 150) {
+            this.edad = edad;
+        } else {
+            throw new IllegalArgumentException("La edad debe estar entre 0 y 150 años");
+        }
     }
     public Boolean getEstaVivo() {
         return estaVivo;
     }
     public void setEstaVivo(Boolean estaVivo) {
-        this.estaVivo = estaVivo;
+        if (estaVivo != null) {
+            this.estaVivo = estaVivo;
+        } else {
+            throw new IllegalArgumentException("El atributo estaVivo no puede ser nulo");
+        }
     }
 
 
