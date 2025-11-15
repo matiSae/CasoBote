@@ -7,6 +7,14 @@ import pkAnimales.Lobo;
 import pkFrutas.Uvas;
 
 public class AppJuego {
+
+    public static final String VERDE = "\u001B[32m";
+    public static final String ROJO = "\u001B[31m";
+    public static final String RESET = "\u001B[0m";
+    public static final String CELESTE = "\u001B[34m";
+    public static final String AMARILLO = "\u001B[33m";
+
+
     private vikingo_Observador vikingo;
     private Caperucita caperucita;
     private Lobo lobo;
@@ -21,7 +29,7 @@ public class AppJuego {
     
     public AppJuego() {
         vikingo = new vikingo_Observador("Vikingo", "Nórdico", 40, true, true);
-        caperucita = new Caperucita();
+        caperucita = new Caperucita("Caperucita", "Roja", 10, true);
         lobo = new Lobo(true);
         uvas = new Uvas(5);
         
@@ -40,15 +48,17 @@ public class AppJuego {
     }
     
     public void iniciar(){
-        Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
     String opciones = "";
     boolean salirJuego = false;
     Integer opcion = 0;
         
-        System.out.println("\n╔════════════════════════════════════════════════════╗");
-        System.out.println("║   BIENVENIDO AL JUEGO DEL RIO PELIGROSO            ║");
-        System.out.println("╚════════════════════════════════════════════════════╝\n");
+        System.out.println(CELESTE + "\n==================================================================");
+        System.out.println("========================= BOAT OR DIE =============================");
+        System.out.println("==================================================================\n" + RESET);
         
+        System.out.println("\nBienvenido al juego 'Boat or Die'! ¿Podrás ganar?\n");
+
         imprimirReglas();
         
         do {
@@ -58,7 +68,7 @@ public class AppJuego {
             }
             // Comprobar victoria antes de mostrar menú
             if (orillaFinal.size() == 4) {
-                System.out.println("\n¡¡¡ FELICIDADES !!! ¡¡¡ HAS GANADO !!!");
+                System.out.println(AMARILLO + "\n¡¡¡ FELICIDADES !!! ¡¡¡ HAS GANADO !!!" + RESET);
                 juegoGanado = true;
                 salirJuego = true;
             } else {
@@ -82,7 +92,7 @@ public class AppJuego {
                             System.out.println("Ingrese una opcion correcta (1-7)");
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("Entrada no valida. Ingresa un numero (1-7)");
+                        imprimirErrorEntrada();
                     }
                 } while (!entradaValida);
                 
@@ -111,7 +121,8 @@ public class AppJuego {
                         salirJuego = true;
                         break;
                     default:
-                        System.out.println("Opción no válida. Intenta de nuevo.");
+                        imprimirErrorOpcionNoValida();
+                    break;
                 }
             }
         } while(!salirJuego);
@@ -119,10 +130,25 @@ public class AppJuego {
         scanner.close();
     }
 
+    private String getUbicacionIndividual(Object obj) {
+        if (orillaInicial.contains(obj)) return "Orilla Inicial";
+        if (orillaFinal.contains(obj)) return "Orilla Final";
+        if (bote.contains(obj)) return "En el bote";
+        return "Desconocido";
+}
+
+    private void imprimirErrorOpcionNoValida() {
+        System.out.println(ROJO + "\n======================== ERROR ========================" + RESET );
+        System.out.println("Opcion no valida. Intente nuevamente\n");
+    }
+
+    private void imprimirErrorEntrada() {
+        System.out.println(ROJO + "\n======================== ERROR ========================" + RESET );
+        System.out.println("Entrada no valida. Ingresa un numero (1-7)\n");
+    }
+
     private void imprimirReglas() {
-        System.out.println("\n╔════════════════════════════════════════════════════╗");
-        System.out.println("║                     REGLAS DEL JUEGO              ║");
-        System.out.println("╚════════════════════════════════════════════════════╝");
+        System.out.println(VERDE + "\n======================== REGLAS DEL JUEGO ========================\n" + RESET);
         System.out.println("\nObjetivo: Pasar a todos los objetos al otro lado del rio");
         System.out.println("\nRestricciones:");
         System.out.println("  * El bote solo puede llevar al Vikingo + 1 objeto");
@@ -133,19 +159,17 @@ public class AppJuego {
     }
     
     private void mostrarEstado() {
-        System.out.println("\n╔════════════════════════════════════════════════════╗");
-        System.out.println("║               ESTADO ACTUAL DEL JUEGO              ║");
-        System.out.println("╚════════════════════════════════════════════════════╝");
-        
+        System.out.println(VERDE + "\n======================== ESTADO ACTUAL DEL JUEGO ========================\n" + RESET);
+    
         System.out.println("\nORILLA INICIAL (Izquierda):");
         if (orillaInicial.isEmpty()) {
-            System.out.println("   [Vacia]");
+             System.out.println("   [Vacia]");
         } else {
             for (Object obj : orillaInicial) {
                 System.out.println("   * " + getNombreObjeto(obj));
             }
         }
-        
+    
         System.out.println("\nBOTE:");
         if (bote.isEmpty()) {
             System.out.println("   [Vacio]");
@@ -154,22 +178,25 @@ public class AppJuego {
                 System.out.println("   * " + getNombreObjeto(obj));
             }
         }
-        
+    
         System.out.println("\nORILLA FINAL (Derecha):");
         if (orillaFinal.isEmpty()) {
-            System.out.println("   [Vacia]");
+             System.out.println("   [Vacia]");
         } else {
             for (Object obj : orillaFinal) {
                 System.out.println("   * " + getNombreObjeto(obj));
             }
         }
-        
-        if (vikingoEnOrillaInicial) {
-            System.out.println("\nEL Vikingo esta en: Orilla Inicial");
-        } else {
-            System.out.println("\nEL Vikingo esta en: Orilla Final");
-        }
-    }
+
+        System.out.println("\n-------------------- UBICACIÓN INDIVIDUAL --------------------");
+
+        System.out.println("Vikingo:     " + getUbicacionIndividual(vikingo));
+        System.out.println("Caperucita:  " + getUbicacionIndividual(caperucita));
+        System.out.println("Lobo:        " + getUbicacionIndividual(lobo));
+        System.out.println("Uvas:        " + getUbicacionIndividual(uvas));
+        System.out.println("------------------------------------------------------------------");
+
+}
     
     private void subirObjeto(Scanner scanner) {
         if (bote.size() >= 2) {
@@ -361,7 +388,7 @@ public class AppJuego {
         // Verificar en orilla inicial
         String razon = verificarCondicionPeligrosa(orillaInicialActual);
         if (razon != null) {
-            System.out.println("\nERROR: ¡GAME OVER! Condicion peligrosa en la orilla inicial.");
+            System.out.println("\n¡GAME OVER! Condicion peligrosa en la orilla inicial.");
             System.out.println("Razon: " + razon);
             System.out.println("El juego ha terminado. ¡Intenta de nuevo!");
             juegoPerdido = true;
