@@ -6,7 +6,7 @@ import pkHumanos.Caperucita;
 import pkAnimales.Lobo;
 import pkFrutas.Uvas;
 
-public class AppJuego {
+public class AppBoatorDie {
 
     public static final String VERDE = "\u001B[32m";
     public static final String ROJO = "\u001B[31m";
@@ -28,7 +28,7 @@ public class AppJuego {
     private boolean juegoGanado;
     private boolean juegoPerdido;
     
-    public AppJuego() {
+    public AppBoatorDie() {
         vikingo = new vikingo_Observador("Vikingo", "Nórdico", 40, true, true);
         caperucita = new Caperucita("Caperucita", "Roja", 10, true);
         lobo = new Lobo(true);
