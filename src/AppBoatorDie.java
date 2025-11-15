@@ -12,6 +12,7 @@ public class AppJuego {
     public static final String ROJO = "\u001B[31m";
     public static final String RESET = "\u001B[0m";
     public static final String CELESTE = "\u001B[34m";
+    public static final String MORADO = "\u001B[35m";
     public static final String AMARILLO = "\u001B[33m";
 
 
@@ -59,7 +60,7 @@ public class AppJuego {
         
         System.out.println("\nBienvenido al juego 'Boat or Die'! ¿Podrás ganar?\n");
 
-        imprimirReglas();
+        visualizarReglasJuego();
         
         do {
             if (juegoPerdido) {
@@ -111,7 +112,7 @@ public class AppJuego {
                         cruzarRio();
                         break;
                     case 5:
-                        imprimirReglas();
+                        visualizarReglasJuego();
                         break;
                     case 6:
                         cruzarSoloVikingo();
@@ -147,7 +148,7 @@ public class AppJuego {
         System.out.println("Entrada no valida. Ingresa un numero (1-7)\n");
     }
 
-    private void imprimirReglas() {
+    private void visualizarReglasJuego() {
         System.out.println(VERDE + "\n======================== REGLAS DEL JUEGO ========================\n" + RESET);
         System.out.println("\nObjetivo: Pasar a todos los objetos al otro lado del rio");
         System.out.println("\nRestricciones:");
@@ -200,7 +201,7 @@ public class AppJuego {
     
     private void subirObjeto(Scanner scanner) {
         if (bote.size() >= 2) {
-            System.out.println("\nERROR: El bote esta lleno. Maximo: Vikingo + 1 objeto");
+            System.out.println("\nERROR: El bote esta lleno. Maximo: Vikingo + 1 objeto\n");
             return;
         }
         
@@ -215,9 +216,9 @@ public class AppJuego {
             if (listaActual.contains(vikingo)) {
                 listaActual.remove(vikingo);
                 bote.add(vikingo);
-                System.out.println("\nOK: Vikingo subio al bote.");
+                System.out.println("\nOK: Vikingo subio al bote.\n");
             } else {
-                System.out.println("\nERROR: El Vikingo debe estar en la orilla actual para subirse al bote.");
+                System.out.println("\nERROR: El Vikingo debe estar en la orilla actual para subirse al bote.\n");
                 return;
             }
         }
@@ -236,7 +237,7 @@ public class AppJuego {
         }
         
         if (objetosSinVikingo.isEmpty()) {
-            System.out.println("No hay objetos para subir.");
+            System.out.println(ROJO + "\nNo hay objetos para subir.\n" + RESET);
             return;
         }
         
@@ -249,16 +250,16 @@ public class AppJuego {
                 bote.add(objeto);
                 System.out.println("\nOK: " + getNombreObjeto(objeto) + " subio al bote.");
             } else {
-                System.out.println("ERROR: Opcion no valida.");
+                imprimirErrorOpcionNoValida();
             }
         } catch (NumberFormatException e) {
-            System.out.println("ERROR: Entrada no valida.");
+            imprimirErrorEntrada();
         }
     }
     
     private void bajarObjeto(Scanner scanner) {
         if (bote.size() <= 1) {
-            System.out.println("\nERROR: Solo el Vikingo esta en el bote. No hay objetos para bajar.");
+            System.out.println(ROJO + "\nERROR: Solo el Vikingo esta en el bote. No hay objetos para bajar." + RESET);
             return;
         }
 
@@ -280,18 +281,18 @@ public class AppJuego {
                 listaActual = orillaFinal;
             }
             listaActual.add(objeto);
-            System.out.println("\nOK: " + getNombreObjeto(objeto) + " bajo del bote.");
+            System.out.println("\nOK: " + getNombreObjeto(objeto) + " bajo del bote.\n");
         }
     }
     
     private void cruzarRio() {
         if (!bote.contains(vikingo)) {
-            System.out.println("\nERROR: El Vikingo debe estar en el bote para cruzar.");
+            System.out.println("\nERROR: El Vikingo debe estar en el bote para cruzar.\n");
             return;
         }
         
         if (bote.size() < 2) {
-            System.out.println("\nERROR: Debes subir al menos un objeto ademas del Vikingo.");
+            System.out.println("\nERROR: Debes subir al menos un objeto ademas del Vikingo.\n");
             return;
         }
         
@@ -315,7 +316,7 @@ public class AppJuego {
         // Cambiar ubicacion del vikingo
     vikingoEnOrillaInicial = !vikingoEnOrillaInicial;
         
-        System.out.println("\nOK: El Vikingo cruzo el rio!");
+        System.out.println("\nOK: El Vikingo cruzo el rio!\n");
         
         // Verificar condiciones de perdida
         verificarCondicionesDerrota();
@@ -337,7 +338,7 @@ public class AppJuego {
             }
         }
         if (hayOtroObjeto) {
-            System.out.println("\nERROR: No puede cruzar solo mientras haya otros objetos en el bote.");
+            System.out.println("\nERROR: No puede cruzar solo mientras haya otros objetos en el bote.\n");
             return;
         }
 
@@ -359,7 +360,7 @@ public class AppJuego {
                 bote.add(vikingo);
                 System.out.println("\nOK: Vikingo subio al bote.");
             } else {
-                System.out.println("\nERROR: El Vikingo no esta en la orilla actual.");
+                System.out.println("\nERROR: El Vikingo no esta en la orilla actual.\n");
                 return;
             }
         }
@@ -375,7 +376,7 @@ public class AppJuego {
             vikingoEnOrillaInicial = true;
         }
 
-        System.out.println("\nOK: Vikingo cruzo solo el rio.");
+        System.out.println("\nOK: Vikingo cruzo solo el rio.\n");
 
         // Verificar condiciones de perdida despues del movimiento
         verificarCondicionesDerrota();
@@ -388,9 +389,7 @@ public class AppJuego {
         // Verificar en orilla inicial
         String razon = verificarCondicionPeligrosa(orillaInicialActual);
         if (razon != null) {
-            System.out.println("\n¡GAME OVER! Condicion peligrosa en la orilla inicial.");
-            System.out.println("Razon: " + razon);
-            System.out.println("El juego ha terminado. ¡Intenta de nuevo!");
+            imprimirJuegoTerminado(razon);
             juegoPerdido = true;
             return;
         }
@@ -398,14 +397,18 @@ public class AppJuego {
         // Verificar en orilla final
         razon = verificarCondicionPeligrosa(orillaFinalActual);
         if (razon != null) {
-            System.out.println("\nERROR: ¡GAME OVER! Condicion peligrosa en la orilla final.");
-            System.out.println("Razon: " + razon);
-            System.out.println("El juego ha terminado. ¡Intenta de nuevo!");
+            imprimirJuegoTerminado(razon);
             juegoPerdido = true;
             return;
         }
     }
     
+    private void imprimirJuegoTerminado(String razon) {
+        System.out.println(ROJO + "\n¡GAME OVER! Condicion peligrosa en la orilla final.\n" + RESET);
+        System.out.println("Razon: " + razon);
+        System.out.println("El juego ha terminado. ¡Intenta de nuevo!");
+    }
+
     /**
      * Verifica condiciones peligrosas en una orilla.
      * Retorna null si no hay problema, o una cadena con la razon de la perdida.
@@ -434,12 +437,12 @@ public class AppJuego {
 
         // Lobo + Caperucita sin vikingo => perdida
         if (hayLobo && hayCaperucita && !hayVikingo) {
-            return "El Lobo ataco a Caperucita (Caperucita murio).";
+            return MORADO + "\nEl Lobo ataco a Caperucita (Caperucita murio).\n" + RESET;
         }
 
         // Caperucita + Uvas sin vikingo => uvas comidas
         if (hayCaperucita && hayUvas && !hayVikingo) {
-            return "Caperucita se comio las Uvas.";
+            return MORADO + "\nCaperucita se comio las Uvas." + RESET;
         }
 
         return null;

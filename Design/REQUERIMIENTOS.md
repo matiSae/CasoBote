@@ -2,7 +2,7 @@
 
 ## Requerimiento 1
 
-El sistema debe permitir al usuario visualizar las reglas del juego al iniciar la aplicación.
+El usuario podrá visualizar las reglas del juego al iniciar la aplicación.
 
 ## Requerimiento 2
 
@@ -14,7 +14,7 @@ La App "Boat or Die" debe permitir al usuario mover el bote de una orilla a otra
 
 ## Requerimiento 4
 
-La App "Boat or Die" debe permitir al usuario bajar un objeto (uvas), persona (Caperucita) o animal (lobo) del bote, acción realizada por el vikingo. Esto se deberá realizar alidando que haya al menos uno de dichos elementos en el bote antes de permitir la acción.
+La App "Boat or Die" debe permitir al usuario bajar un objeto (uvas), persona (Caperucita) o animal (lobo) del bote, acción realizada por el vikingo. Esto se deberá realizar validando que haya al menos uno de dichos elementos en el bote antes de permitir la acción.
 
 ## Requerimiento 5
 
