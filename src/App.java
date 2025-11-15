@@ -1,6 +1,6 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        AppJuego cruzaRio=new AppJuego();
+        AppBoatorDie cruzaRio=new AppBoatorDie();
         cruzaRio.iniciar();
     }
 }
